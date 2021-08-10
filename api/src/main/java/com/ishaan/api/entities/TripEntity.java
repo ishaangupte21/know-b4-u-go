@@ -8,7 +8,6 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
-import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -21,11 +20,11 @@ public class TripEntity {
 
     @Getter
     @Setter
-    private String tripName, travelOrigin, travelDestination;
+    private String travelOrigin, travelDestination;
 
     @Getter
     @Setter
-    private Date travelDate;
+    private long travelDate;
 
     @Getter
     @Setter
@@ -48,8 +47,7 @@ public class TripEntity {
     private UserEntity user;
 
     @Builder
-    public TripEntity(String tripName, String travelOrigin, String travelDestination, Date travelDate, TravelMethod travelMethod, UserEntity user) {
-        this.tripName = tripName;
+    public TripEntity(String travelOrigin, String travelDestination, long travelDate, TravelMethod travelMethod, UserEntity user) {
         this.travelOrigin = travelOrigin;
         this.travelDestination = travelDestination;
         this.travelDate = travelDate;

@@ -33,6 +33,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({children}) => {
   const logOut = () => removeToken();
 
   const getUser = async () => {
+    setIsLoading(true);
     try {
       const token = await getToken();
       if (!token) {
@@ -47,6 +48,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({children}) => {
       setIsLoading(false);
     } catch (err) {
       console.error(err);
+      removeToken();
       setUser(null);
       setIsLoading(false);
     }

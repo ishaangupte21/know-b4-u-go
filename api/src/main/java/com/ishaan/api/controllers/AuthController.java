@@ -63,9 +63,8 @@ public class AuthController {
     public ResponseEntity<?> handleGetUser(HttpServletRequest request) {
         String email = (String) request.getAttribute("email");
         Optional<UserEntity> userEntityOptional = userRepository.findByEmail(email);
-        if(userEntityOptional.isEmpty()) {
+        if(userEntityOptional.isEmpty())
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Collections.singletonMap("msg", "No user with email"));
-        }
 
         UserEntity userEntity = userEntityOptional.get();
         return ResponseEntity.ok(Collections.singletonMap("user", Map.of("email", userEntity.getEmail(), "firstName", userEntity.getFirstName(), "lastName", userEntity.getLastName())));
