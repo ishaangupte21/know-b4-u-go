@@ -31,7 +31,6 @@ public class RestService {
         Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
         StringReader reader = new StringReader(xmlData);
         CountryResponse countryResponse = (CountryResponse) unmarshaller.unmarshal(reader);
-        List<TripCountry> res = countryResponse.getChannel().getCountries();
-        return res;
+        return countryResponse.getChannel().getCountries();
     }
 }
