@@ -100,3 +100,6 @@ nbdist/
 
 # Applcation.yml
 application.yml
+
+## request files
+*.rest

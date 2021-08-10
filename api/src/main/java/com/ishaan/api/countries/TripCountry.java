@@ -7,11 +7,12 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementRef;
+import java.io.Serializable;
 import java.util.List;
 
 @Data
 @XmlAccessorType(XmlAccessType.FIELD)
-public class TripCountry {
+public class TripCountry implements Serializable {
 
     @XmlElement(name = "title")
     private String title;

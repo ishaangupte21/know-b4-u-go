@@ -30,7 +30,11 @@ dependencies {
 	compileOnly 'org.projectlombok:lombok:1.18.20'
 	runtimeOnly 'org.postgresql:postgresql:42.2.23.jre7'
 	// https://mvnrepository.com/artifact/com.google.api-client/google-api-client
+	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-redis
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis:2.5.3'
 	implementation 'com.google.api-client:google-api-client:1.32.1'
+	// https://mvnrepository.com/artifact/redis.clients/jedis
+	implementation 'redis.clients:jedis:3.6.3'
 	annotationProcessor 'org.projectlombok:lombok:1.18.20'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test:2.5.3'
 }
