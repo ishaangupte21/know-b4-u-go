@@ -1,15 +1,9 @@
 import {Formik, FormikHelpers, useFormik} from 'formik';
 import React, {FC} from 'react';
-import {
-  LoaderScreen,
-  Modal,
-  View,
-  Text,
-  Picker,
-  DateTimePicker,
-} from 'react-native-ui-lib';
-import tailwind from 'tailwind-rn';
+import {LoaderScreen, Modal, View} from 'react-native-ui-lib';
 import {useDestinationCountries} from '../../hooks/useDestinationCountries';
+import CreateModalForm from './CreateModalForm';
+import CreateModalTravellers from './CreateModalTravellers';
 
 interface CreateTripModalProps {
   open: boolean;
@@ -69,51 +63,8 @@ const CreateTripModal: FC<CreateTripModalProps> = ({open, onClose}) => {
             doneLabel="Create"
           />
           <View paddingH-16>
-            <Text text60M center marginT-4>
-              Enter your Trip Info
-            </Text>
-            <Picker
-              marginT-14
-              floatingPlaceholder
-              placeholder="Select your Destination"
-              selectionLimit={1}
-              value={formik.values.destination.value}
-              onChange={(val: {label: string; value: string}) => {
-                formik.setFieldValue('destination', val);
-              }}>
-              {data?.map((val: string, index: number) => (
-                <Picker.Item
-                  key={index}
-                  label={val}
-                  value={val.toLowerCase().replace(' ', '-')}
-                />
-              ))}
-            </Picker>
-            <DateTimePicker
-              mode="date"
-              title="Date"
-              placeholder="Select your Travel Date"
-              onChange={(val: string) => {
-                const date = new Date(val);
-                formik.setFieldValue('date', date.getTime());
-              }}
-              value={formik.values.date ? new Date(formik.values.date) : null}
-            />
-            <Picker
-              marginT-14
-              floatingPlaceholder
-              placeholder="I'm traveling by"
-              selectionLimit={1}
-              value={formik.values.travelMethod.value}
-              onChange={(val: {label: string; value: string}) => {
-                formik.setFieldValue('travelMethod', val);
-              }}>
-              <Picker.Item key={0} label="Air" value="AIR" />
-              <Picker.Item key={1} label="Road" value="ROAD" />
-            </Picker>
-            <Text text60M center>
-              Travellers 
-            </Text>
+            <CreateModalForm formik={formik} data={data} />
+            <CreateModalTravellers formik={formik} />
           </View>
         </View>
       )}

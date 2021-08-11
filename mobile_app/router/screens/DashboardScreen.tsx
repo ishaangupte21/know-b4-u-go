@@ -1,7 +1,7 @@
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import React, {FC, useState} from 'react';
-import { SafeAreaView, ActivityIndicator, View} from 'react-native';
-import { Text } from 'react-native-ui-lib';
+import {SafeAreaView} from 'react-native';
+import {LoaderScreen, Text, View} from 'react-native-ui-lib';
 import tailwind from 'tailwind-rn';
 import {useUserTrips} from '../../hooks/useUserTrips';
 import CreateButton from '../../modules/dashboard_screen/CreateButton';
@@ -21,12 +21,12 @@ const DashboardScreen: FC<DashboardScreenProps> = ({navigation}) => {
         `w-full h-full ${isLoading ? 'flex justify-center items-center' : ''}`,
       )}>
       {isLoading ? (
-        <ActivityIndicator size="large" />
+        <LoaderScreen />
       ) : (
-        <View style={tailwind('h-full')}>
+        <View height="100%" paddingT-30 paddingH-18>
           {data!.length > 0 ? null : (
-            <View style={tailwind('mt-8 px-4')}>
-              <Text text50M center> 
+            <View>
+              <Text text50M center>
                 You do not have any trips.
               </Text>
               <Text text50M marginT-10 center>
@@ -35,7 +35,10 @@ const DashboardScreen: FC<DashboardScreenProps> = ({navigation}) => {
             </View>
           )}
           <CreateButton onClick={() => setCreateModal(true)} />
-          <CreateTripModal open={createModal} onClose={() => setCreateModal(false)} />
+          <CreateTripModal
+            open={createModal}
+            onClose={() => setCreateModal(false)}
+          />
         </View>
       )}
     </SafeAreaView>
