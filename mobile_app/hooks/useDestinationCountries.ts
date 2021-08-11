@@ -13,7 +13,7 @@ const getDestinationCountries = async () => {
     },
   });
   countries.sort();
-  return countries;
+  return countries.map((country: string) => country.trim());
 };
 
 export const useDestinationCountries = () =>

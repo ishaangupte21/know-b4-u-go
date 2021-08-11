@@ -59,14 +59,14 @@ public class TripController {
     public ResponseEntity<?> handleGetDestinationCountries() throws JAXBException {
         List<TripCountry> countries = restService.getCountryData();
         return ResponseEntity.ok(Collections.singletonMap("countries", countries.stream().map(country -> {
-           String[] tokens = country.getTitle().split(" ");
-           StringBuilder nameBuilder = new StringBuilder();
-           int i = 0;
-           while(!tokens[i].equals("-")){
-               nameBuilder.append(" ");
-               nameBuilder.append(tokens[i++]);
-           }
-           return nameBuilder.toString();
+            String[] tokens = country.getTitle().split(" ");
+            StringBuilder nameBuilder = new StringBuilder();
+            int i = 0;
+            while (!tokens[i].equals("-")) {
+                nameBuilder.append(" ");
+                nameBuilder.append(tokens[i++]);
+            }
+            return nameBuilder.toString();
         }).collect(Collectors.toList())));
     }
 

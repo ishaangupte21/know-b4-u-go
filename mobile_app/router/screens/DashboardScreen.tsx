@@ -1,6 +1,7 @@
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import React, {FC, useState} from 'react';
-import {Text, SafeAreaView, ActivityIndicator, View} from 'react-native';
+import { SafeAreaView, ActivityIndicator, View} from 'react-native';
+import { Text } from 'react-native-ui-lib';
 import tailwind from 'tailwind-rn';
 import {useUserTrips} from '../../hooks/useUserTrips';
 import CreateButton from '../../modules/dashboard_screen/CreateButton';
@@ -25,16 +26,16 @@ const DashboardScreen: FC<DashboardScreenProps> = ({navigation}) => {
         <View style={tailwind('h-full')}>
           {data!.length > 0 ? null : (
             <View style={tailwind('mt-8 px-4')}>
-              <Text style={tailwind('text-xl text-center')}>
+              <Text text50M center> 
                 You do not have any trips.
               </Text>
-              <Text style={tailwind('text-xl text-center')}>
+              <Text text50M marginT-10 center>
                 You can create one to access its data.
               </Text>
             </View>
           )}
           <CreateButton onClick={() => setCreateModal(true)} />
-          <CreateTripModal open={createModal} />
+          <CreateTripModal open={createModal} onClose={() => setCreateModal(false)} />
         </View>
       )}
     </SafeAreaView>
