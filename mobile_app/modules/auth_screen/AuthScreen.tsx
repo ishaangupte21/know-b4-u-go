@@ -1,10 +1,12 @@
 import React, {FC, useState} from 'react';
-import {Button, Pressable, SafeAreaView, StyleSheet, Text} from 'react-native';
+import {SafeAreaView} from 'react-native';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import tailwind from 'tailwind-rn';
 import {useAuth} from '../../hooks/useAuth';
 import {useAuthToken} from '../../hooks/useAuthToken';
 import {AxiosResponse} from 'axios';
+import {Text, Button, Colors, View} from 'react-native-ui-lib';
+import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 
 interface AuthScreenProps {}
 
@@ -34,7 +36,6 @@ const AuthScreen: FC<AuthScreenProps> = () => {
       console.log(`token: ${token}`);
       await setToken(token);
       refetchUser();
-      setBtnDisabled(false);
     } catch (err) {
       console.error(err);
       setBtnDisabled(false);
@@ -43,24 +44,24 @@ const AuthScreen: FC<AuthScreenProps> = () => {
 
   return (
     <SafeAreaView>
-      <Text>Login screen</Text>
-      {/* <GoogleSigninButton
-        style={{width: 192, height: 48}}
-        size={GoogleSigninButton.Size.Wide}
-        color={GoogleSigninButton.Color.Dark}
-        onPress={googleBtnClick}
-        disabled={btnDisabled}
-      /> */}
-      <Pressable
-        style={tailwind(
-          'px-5 py-4 mx-4 my-3 rounded-md text-white font-medium bg-blue-500 mt-12',
-        )}
-        onPress={googleBtnClick}
-        disabled={btnDisabled}>
-        <Text style={tailwind('text-white font-semibold text-lg text-center')}>
-          Continue with Google
-        </Text>
-      </Pressable>
+      <View width="100%" height="100%" paddingH-12>
+        <Text>Login screen</Text>
+        <Button
+          backgroundColor={Colors.green20}
+          label="Login With Google"
+          borderRadius={5}
+          text60M
+          iconSource={() => (
+            <FontAwesome5Icon
+              name={'google'}
+              style={tailwind('text-2xl text-white mr-3')}
+            />
+          )}
+          style={tailwind('py-3')}
+          onPress={googleBtnClick}
+          disabled={btnDisabled}
+        />
+      </View>
     </SafeAreaView>
   );
 };

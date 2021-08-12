@@ -1,12 +1,13 @@
 import React, {FC} from 'react';
-import {DateTimePicker, Picker, Text, View} from 'react-native-ui-lib';
+import {Button, Colors, DateTimePicker, Picker, Text, View} from 'react-native-ui-lib';
 
 interface CreateModalFormProps {
   formik: any;
   data: string[] | undefined;
+  continueFunc: () => void
 }
 
-const CreateModalForm: FC<CreateModalFormProps> = ({formik, data}) => {
+const CreateModalForm: FC<CreateModalFormProps> = ({formik, data, continueFunc}) => {
   return (
     <View>
       <Text text60M center marginT-4>
@@ -51,6 +52,7 @@ const CreateModalForm: FC<CreateModalFormProps> = ({formik, data}) => {
         <Picker.Item key={0} label="Air" value="AIR" />
         <Picker.Item key={1} label="Road" value="ROAD" />
       </Picker>
+      <Button onPress={continueFunc} label="Continue" backgroundColor={Colors.green20} text60M/>
     </View>
   );
 };

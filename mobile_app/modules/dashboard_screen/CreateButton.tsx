@@ -9,7 +9,7 @@ interface CreateButtonProps {
 
 const CreateButton: FC<CreateButtonProps> = ({onClick}) => {
   return (
-    <View absR-12 absB-18 marginL width="100%" height="100%">
+    <View width="100%" height="100%">
       {/* <Pressable
         style={tailwind(
           'w-full h-full bg-blue-500 rounded-full flex justify-center items-center',
@@ -24,7 +24,8 @@ const CreateButton: FC<CreateButtonProps> = ({onClick}) => {
         onPress={onClick}
         iconSource={() => (
           <FontAwesome5 name={'plus'} style={tailwind('text-xl text-white')} />
-        )}></Button>
+        )}
+      />
       {/* <FloatingButton
         visible={true}
         button={{
