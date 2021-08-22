@@ -21,7 +21,7 @@ interface CreateTripModalProps {
 type TripTraveller = {
   firstName: string;
   lastName: string;
-  age: number | null;
+  age: string;
   isVaccinated: boolean;
 };
 
@@ -57,7 +57,7 @@ const CreateTripModal: FC<CreateTripModalProps> = ({open, onClose}) => {
       {
         firstName: '',
         lastName: '',
-        age: null,
+        age: '',
         isVaccinated: false,
       },
     ],
