@@ -10,13 +10,6 @@ interface CreateButtonProps {
 const CreateButton: FC<CreateButtonProps> = ({onClick}) => {
   return (
     <View width="100%" height="100%">
-      {/* <Pressable
-        style={tailwind(
-          'w-full h-full bg-blue-500 rounded-full flex justify-center items-center',
-        )}
-        onPress={onClick}>
-        <FontAwesome5 name={'plus'} style={tailwind('text-xl text-white')} />
-      </Pressable> */}
       <Button
         style={tailwind('w-14 h-14 m-0 p-0')}
         backgroundColor={Colors.green30}
@@ -26,21 +19,6 @@ const CreateButton: FC<CreateButtonProps> = ({onClick}) => {
           <FontAwesome5 name={'plus'} style={tailwind('text-xl text-white')} />
         )}
       />
-      {/* <FloatingButton
-        visible={true}
-        button={{
-          style: tailwind('w-14 h-14 m-0 p-0'),
-          iconSource: () => (
-            <FontAwesome5
-              name={'plus'}
-              style={tailwind('text-xl text-white')}
-            />
-          ),
-          backgroundColor: Colors.green30,
-          enableShadow: true,
-          onPress: onClick,
-        }}
-      /> */}
     </View>
   );
 };

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {RefObject, useState, MutableRefObject} from 'react';
 import {FlatList, ScrollView} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
@@ -11,11 +11,24 @@ import {
   Button,
   ButtonSize,
   BorderRadiuses,
+  Picker,
 } from 'react-native-ui-lib';
 import tailwind from 'tailwind-rn';
+import {useRef} from 'react';
+import {useEffect} from 'react';
+
+interface TravellerRefObject {
+  firstNameInput: MutableRefObject<any> | null;
+  lastNameInput: MutableRefObject<any> | null;
+  ageInput: MutableRefObject<any> | null;
+}
 
 interface CreateModalTravellersProps {
   formik: any;
+  createFormSubmit: () => void;
+  travellerRefs: TravellerRefObject[];
+  addTravellerRefObj: (refObj: TravellerRefObject) => void;
+  setTravellerRefs: any;
 }
 
 type TripTraveller = {
@@ -29,13 +42,31 @@ const RenderItem: React.FC<{
   traveller: TripTraveller;
   index: number;
   formik: any;
-}> = ({traveller, index, formik}) => {
+  travellerRefs: TravellerRefObject[];
+  addTravellerRefObj: (refObj: TravellerRefObject) => void;
+}> = ({traveller, index, formik, travellerRefs, addTravellerRefObj}) => {
+  const firstNameRef = useRef<any>(null),
+    lastNameRef = useRef<any>(null),
+    ageRef = useRef<any>(null);
+
   const removeTraveller = (): void => {
     const travellers: TripTraveller[] = formik.values.travellers;
     if (travellers.length === 1) return;
     travellers.splice(index, 1);
     formik.setFieldValue('travellers', travellers);
+    const refObjs: TravellerRefObject[] = travellerRefs;
+    if (refObjs.length === 1) return;
+    refObjs.splice(index, 1);
   };
+
+  useEffect(() => {
+    addTravellerRefObj({
+      firstNameInput: firstNameRef,
+      lastNameInput: lastNameRef,
+      ageInput: ageRef,
+    });
+  }, []);
+
   return (
     <ListItem height="50px">
       <View width="100%">
@@ -43,12 +74,11 @@ const RenderItem: React.FC<{
           <Text text70M>Traveller #{index + 1}</Text>
           <Button
             color={Colors.blue10}
-            outlineColor={Colors.blue10}
-            outline
+            backgroundColor={Colors.white}
             iconSource={() => (
               <FontAwesome5 name="times" style={{color: Colors.blue10}} />
             )}
-            style={tailwind('w-4 h-4 ml-3')}
+            style={tailwind('w-4 h-4 ml-1')}
             onPress={removeTraveller}
           />
         </View>
@@ -58,6 +88,7 @@ const RenderItem: React.FC<{
           underlineColor={{
             focus: Colors.green20,
           }}
+          ref={firstNameRef}
         />
         <TextField
           placeholder="Last Name"
@@ -65,6 +96,7 @@ const RenderItem: React.FC<{
           underlineColor={{
             focus: Colors.green20,
           }}
+          ref={lastNameRef}
         />
         <TextField
           placeholder="Age"
@@ -72,7 +104,30 @@ const RenderItem: React.FC<{
           underlineColor={{
             focus: Colors.green20,
           }}
+          ref={ageRef}
         />
+        <Picker
+          floatingPlaceholder
+          placeholder="Vaccination Status"
+          selectionLimit={1}
+          value={
+            formik.values.travellers[index].isVaccinated
+              ? 'VACCINATED'
+              : 'NOT_VACCINATED'
+          }
+          onChange={(val: {label: string; value: string}) => {
+            const travellers: TripTraveller[] = formik.values.travellers;
+            travellers[index] = {
+              ...travellers[index],
+              isVaccinated: val.value === 'VACCINATED' ? true : false,
+            };
+            console.log(travellers[index].isVaccinated);
+            
+            formik.setFieldValue('travellers', travellers);
+          }}>
+          <Picker.Item label="Vaccinated" value="VACCINATED" key={0} />
+          <Picker.Item label="Not Vaccinated" value="NOT_VACCINATED" key={1} />
+        </Picker>
       </View>
     </ListItem>
   );
@@ -80,6 +135,10 @@ const RenderItem: React.FC<{
 
 const CreateModalTravellers: React.FC<CreateModalTravellersProps> = ({
   formik,
+  createFormSubmit,
+  travellerRefs,
+  setTravellerRefs,
+  addTravellerRefObj,
 }) => {
   const addTraveller = (): void => {
     formik.setFieldValue('travellers', [
@@ -102,7 +161,13 @@ const CreateModalTravellers: React.FC<CreateModalTravellersProps> = ({
           data={formik.values.travellers}
           numColumns={1}
           renderItem={({item, index}) => (
-            <RenderItem traveller={item} index={index} formik={formik} />
+            <RenderItem
+              traveller={item}
+              index={index}
+              formik={formik}
+              addTravellerRefObj={addTravellerRefObj}
+              travellerRefs={travellerRefs}
+            />
           )}
           keyExtractor={(_: any, index: number) => index.toString()}
         />
@@ -124,6 +189,7 @@ const CreateModalTravellers: React.FC<CreateModalTravellersProps> = ({
           backgroundColor={Colors.green20}
           color={Colors.white}
           text60M
+          onPress={createFormSubmit}
         />
       </ScrollView>
     </SafeAreaView>

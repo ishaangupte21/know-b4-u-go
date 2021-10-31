@@ -3,6 +3,7 @@ import React, {FC} from 'react';
 import {RouteParamList} from './RouteParamList';
 import {NavigationContainer} from '@react-navigation/native';
 import DashboardScreen from './screens/DashboardScreen';
+import TripScreen from './screens/TripScreen';
 
 interface RouteStackProps {}
 
@@ -13,6 +14,7 @@ const RouteStack: FC<RouteStackProps> = ({}) => {
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Dashboard">
         <Stack.Screen name="Dashboard" component={DashboardScreen} />
+        <Stack.Screen name="TripScreen" component={TripScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

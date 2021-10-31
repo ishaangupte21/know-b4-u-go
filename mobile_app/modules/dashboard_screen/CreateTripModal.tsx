@@ -1,5 +1,5 @@
-import {Formik, FormikHelpers, useFormik} from 'formik';
-import React, {FC} from 'react';
+import {FormikHelpers, useFormik} from 'formik';
+import React, {FC, RefObject} from 'react';
 import {useState} from 'react';
 import {
   LoaderScreen,
@@ -8,7 +8,7 @@ import {
   Wizard,
   WizardStepStates,
 } from 'react-native-ui-lib';
-import tailwind from 'tailwind-rn';
+import {TripCreate, useCreateTrip} from '../../hooks/useCreateTrip';
 import {useDestinationCountries} from '../../hooks/useDestinationCountries';
 import CreateModalForm from './CreateModalForm';
 import CreateModalTravellers from './CreateModalTravellers';
@@ -18,31 +18,11 @@ interface CreateTripModalProps {
   onClose: () => void;
 }
 
-type TripTraveller = {
-  firstName: string;
-  lastName: string;
-  age: string;
-  isVaccinated: boolean;
-};
-
-interface FormValues {
-  origin: string;
-  destination: {
-    label: string;
-    value: string;
-  };
-  date: number | null;
-  travelMethod: {
-    label: 'Air' | 'Road';
-    value: 'AIR' | 'ROAD';
-  };
-  travellers: TripTraveller[];
-}
-
 const CreateTripModal: FC<CreateTripModalProps> = ({open, onClose}) => {
   const {data, isLoading} = useDestinationCountries();
+  const createTripMutation = useCreateTrip();
 
-  const formValues: FormValues = {
+  const formValues: TripCreate = {
     origin: '',
     destination: {
       label: '',
@@ -63,11 +43,38 @@ const CreateTripModal: FC<CreateTripModalProps> = ({open, onClose}) => {
     ],
   };
 
+  interface TravellerRefObject {
+    firstNameInput: RefObject<any> | null;
+    lastNameInput: RefObject<any> | null;
+    ageInput: RefObject<any> | null;
+  }
+  const [travellerRefs, setTravellerRefs] = useState<TravellerRefObject[]>([]);
+
+  const addTravellerRefObj = (refObj: TravellerRefObject): void => {
+    setTravellerRefs([...travellerRefs, refObj]);
+  };
+
   const formSubmit = (
-    values: FormValues,
-    actions: FormikHelpers<FormValues>,
+    values: TripCreate,
+    actions: FormikHelpers<TripCreate>,
   ) => {
-    console.log(values);
+    // manually add the traveller data
+    const travellersLength: number = values.travellers.length;
+    for (let i = 0; i < travellersLength; i++) {
+      values.travellers[i].firstName =
+        travellerRefs[i].firstNameInput?.current.state.value;
+      values.travellers[i].lastName =
+        travellerRefs[i].lastNameInput?.current.state.value;
+      values.travellers[i].age = travellerRefs[i].ageInput?.current.state.value;
+    }
+    values.travellers.forEach(traveller =>
+      console.log(`isVaccinated: ${traveller.isVaccinated}`),
+    );
+    createTripMutation.mutate(values, {
+      onSuccess: () => {
+        onClose();
+      },
+    });
   };
   const formik = useFormik({
     initialValues: formValues,
@@ -114,7 +121,13 @@ const CreateTripModal: FC<CreateTripModalProps> = ({open, onClose}) => {
                 continueFunc={() => setWizardIndex(1)}
               />
             ) : (
-              <CreateModalTravellers formik={formik} />
+              <CreateModalTravellers
+                formik={formik}
+                createFormSubmit={formik.handleSubmit}
+                travellerRefs={travellerRefs}
+                addTravellerRefObj={addTravellerRefObj}
+                setTravellerRefs={setTravellerRefs}
+              />
             )}
           </View>
         </View>

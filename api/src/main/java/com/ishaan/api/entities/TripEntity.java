@@ -6,8 +6,10 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
+import java.sql.Date;
 import java.util.List;
 
 @Entity
@@ -24,6 +26,7 @@ public class TripEntity {
 
     @Getter
     @Setter
+    @Column(columnDefinition = "BIGINT")
     private long travelDate;
 
     @Getter
