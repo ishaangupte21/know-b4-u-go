@@ -7,6 +7,8 @@ import {useAuthToken} from '../../hooks/useAuthToken';
 import {AxiosResponse} from 'axios';
 import {Text, Button, Colors, View} from 'react-native-ui-lib';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
+import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
+import {faBullhorn} from '@fortawesome/free-solid-svg-icons';
 
 interface AuthScreenProps {}
 
@@ -45,7 +47,17 @@ const AuthScreen: FC<AuthScreenProps> = () => {
   return (
     <SafeAreaView>
       <View width="100%" height="100%" paddingH-12>
-        <Text>Login screen</Text>
+        <Text text30M center marginT-56 marginB-36 green10>
+          KnowB4UGo
+        </Text>
+        <View flex style={{justifyContent: 'center', alignItems: 'center'}}>
+          <FontAwesomeIcon
+            style={{margin: 'auto', width: 100}}
+            color={Colors.green10}
+            icon={faBullhorn}
+            size={100}
+          />
+        </View>
         <Button
           backgroundColor={Colors.green20}
           label="Login With Google"

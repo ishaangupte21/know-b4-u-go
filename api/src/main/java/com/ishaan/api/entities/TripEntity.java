@@ -49,6 +49,10 @@ public class TripEntity {
     @JsonIgnore
     private UserEntity user;
 
+    @Getter
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "trip")
+    private AirInfoEntity airInfo;
+
     @Builder
     public TripEntity(String travelOrigin, String travelDestination, long travelDate, TravelMethod travelMethod, UserEntity user) {
         this.travelOrigin = travelOrigin;

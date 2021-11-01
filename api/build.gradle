@@ -35,6 +35,9 @@ dependencies {
 	implementation 'com.google.api-client:google-api-client:1.32.1'
 	// https://mvnrepository.com/artifact/redis.clients/jedis
 	implementation 'redis.clients:jedis:3.6.3'
+	// https://mvnrepository.com/artifact/net.sourceforge.htmlunit/htmlunit
+	implementation 'net.sourceforge.htmlunit:htmlunit:2.54.0'
+
 	annotationProcessor 'org.projectlombok:lombok:1.18.20'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test:2.5.3'
 }
